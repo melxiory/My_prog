@@ -5,4 +5,4 @@ spisok = []
 for i in range(10):
     spisok.append(randint(1, 9))
 
-print(spisok)
+print(spisok+[22, 22, 22])

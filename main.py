@@ -8,3 +8,5 @@ for i in range(10):
 b = 154
 
 print(spisok+[22, 22, 22], b)
+
+spisok.pop()

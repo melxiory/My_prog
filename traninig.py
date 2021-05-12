@@ -1,6 +1,12 @@
-def find_smallest_int(arr):
-    return min(arr)
+def nb_year(p0, percent, aug, p):
+    sum = 0
+    while True:
+        p0 = p0+p0*percent/100+aug
+        if p > p0:
+            sum += 1
+        else:
+            sum += 1
+            break
+    return sum
 
-arr = [1, 1-2**10, 2**10]
-
-print(find_smallest_int(arr))
+print(nb_year(1500,5,100,5000))

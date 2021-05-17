@@ -1,4 +1,6 @@
-def digitize(n):
-    return [int(i) for i in list(str(n))[::-1]  ]
+def sum_array(a):
+    return sum(a) if ''.join(str(i) for i in a).isdigit() else 0
+print(sum_array([1.1, 2.2, 3.3]))
 
-print(digitize(23423))
+strok = ''.join(str(i if i == int else int(i)) for i in [1.1, 2.2, 3.3]).isdigit()
+print(strok)

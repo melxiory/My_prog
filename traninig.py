@@ -1,20 +1,27 @@
-def delete_nth(order, max_e):
-    sum_1 = 0
-    x = 0
-    y = 0
-    while x < len(order):
-        if order.count(order[x]) > max_e:
-            while y < len(order):
-                if order[x] == order[y]:
-                    sum_1 += 1
-                    if sum_1 > max_e:
-                        del order[y]
-                        y -= 1
-                y += 1
-        sum_1 = 0
-        y = 0
-        x += 1
-    return order
+def increment_string(strng):
+    if strng.isalpha():
+        return strng + "1"
+    if strng.isdigit():
+        chislo = int(strng) + 1
+        if len(str(strng)) > len(str(chislo)):
+            return '0'*(len(str(strng)) - len(str(chislo))) + str(int(strng)+1)
+        return str(int(strng)+1)
+    if strng == '':
+        return strng + "1"
+    for i in range(len(strng)-1, -1, -1):
+        if strng[i].isdigit() == False:
+            strok = strng[i+1:]
+            chislo = int(strok) + 1
+            if len(strok) > len(str(chislo)):
+                return strng[:i+1] + '0'*(len(strok)-len(str(chislo))) + str(chislo)
+            else:
+                return strng[:i+1] + str(chislo)
 
 
-print(delete_nth([30, 48, 39, 49, 49, 30, 45, 45, 22, 39, 30, 22, 48, 49, 45, 7, 45, 30, 49, 30, 49, 45, 22, 39, 30, 30, 48, 22, 7, 30, 7, 39, 49, 7, 41, 41, 39, 48, 41, 49, 30, 30, 22, 30, 30, 30, 22, 45, 22, 30, 41, 41, 45, 45, 45, 39, 7, 48, 22, 39, 39, 49, 45],1))
+
+
+print(increment_string("foo"))
+print(increment_string("foobar001"))
+print(increment_string("foobar99"))
+print(increment_string('000000000653431929'))
+

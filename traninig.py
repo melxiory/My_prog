@@ -1,8 +1,16 @@
-def kebabize(string):
-    return ''.join(['-'+i if j!=0 and i.isupper() else i for j, i in enumerate(string) if i.isalpha()]).lower()
+def expanded_form(num):
+    strok = ''
+    for i in range(len(str(num))):
+        if i != (len(str(num))-1):
+            if str(num)[i] != '0':
+                strok += str(num)[i] + '0'*(len(str(num))-1-i) + ' + '
+        else:
+            if str(num)[i] != '0':
+                strok += str(num)[i]
+            else:
+                strok = strok[:len(strok)-3]
+    return strok
 
-
-print(kebabize('myCamelCasedString'))
-print(kebabize('myCamelHas3Humps'))
-print(kebabize('SOS'))
-print(kebabize('42'))
+print(expanded_form(9000000))
+print(expanded_form(626950))
+print(expanded_form(70304))

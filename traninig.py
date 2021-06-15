@@ -1,16 +1,18 @@
-def expanded_form(num):
-    strok = ''
-    for i in range(len(str(num))):
-        if i != (len(str(num))-1):
-            if str(num)[i] != '0':
-                strok += str(num)[i] + '0'*(len(str(num))-1-i) + ' + '
-        else:
-            if str(num)[i] != '0':
-                strok += str(num)[i]
-            else:
-                strok = strok[:len(strok)-3]
-    return strok
+def likes(names):
+    if names == []:
+        return 'no one likes this'
+    if len(names) == 1:
+        return f'{names[0]} likes this'
+    if len(names) == 2:
+        return f'{names[0]} and {names[1]} likes this'
+    if len(names) == 3:
+        return f'{names[0]}, {names[1]} and {names[2]} likes this'
+    if len(names) > 3:
+        return f'{names[0]}, {names[1]} and {len(names)-2} others likes this'
 
-print(expanded_form(9000000))
-print(expanded_form(626950))
-print(expanded_form(70304))
+
+print(likes([]))
+print(likes(['Peter']))
+print(likes(['Jacob', 'Alex']))
+print(likes(['Max', 'John', 'Mark']))
+print(likes(['Alex', 'Jacob', 'Mark', 'Max']))

@@ -1,19 +1,11 @@
-def encode(cards):
-    dict_mast = {values: key for key, values in enumerate([x + y for y in ['c', 'd', 'h', 's']
-                                                           for x in
-                                                           ['A', '2', '3', '4', '5', '6', '7', '8', '9', 'T', 'J', 'Q',
-                                                            'K']])}
-    spis_encode = sorted([dict_mast[i] for i in cards])
-    return spis_encode
+str = "A23456789TJQK"
+card = "cdhs"
 
+def encode(cards):
+    return sorted([card.index(x[1]) * 13 + str.index(x[0]) for x in cards])
 
 def decode(cards):
-    dict_mast = {key: values for key, values in enumerate([x + y for y in ['c', 'd', 'h', 's']
-                                                           for x in
-                                                           ['A', '2', '3', '4', '5', '6', '7', '8', '9', 'T', 'J', 'Q',
-                                                            'K']])}
-    spis_decode = [dict_mast[i] for i in sorted(cards)]
-    return spis_decode
+    return [f"{str[x % 13]}{card[x // 13]}" for x in sorted(cards)]
 
 
 print(encode(["Td", "8c", "Ks"]))

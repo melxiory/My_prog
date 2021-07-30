@@ -1,13 +1,21 @@
-def alphabet_war(battlefield):
-    if '#' not in battlefield:
-        return battlefield.replace('[', '').replace(']', '')
-    sectors = [sep for bunker in battlefield.split('[') for sep in bunker.split(']')]
-    fields = sectors[0::2]
-    bunkers = sectors[1::2]
-    return ''.join(b for i, b in enumerate(bunkers) if ''.join(fields[i:i+2]).count('#') < 2)
+def power_sumDigTerm(n):
+    power_sum = []
+    for i in range(2, 100):
+        for j in range(2, 50):
+            pow_i = i ** j
+            if sum(map(int, str(pow_i))) == i:
+                power_sum.append(pow_i)
+    power_sum.sort()
+    return power_sum[n-1]
 
 
-print(alphabet_war('##abde[fgh]ijk[mn]op'))
-print(alphabet_war('#abde[fgh]i#jk[mn]op'))
-print(alphabet_war('[a][b][c]'))
-print(alphabet_war('##a[a]b[c]#'))
+print(power_sumDigTerm(1))
+print(power_sumDigTerm(2))
+print(power_sumDigTerm(3))
+print(power_sumDigTerm(4))
+print(power_sumDigTerm(6))
+print(power_sumDigTerm(7))
+print(power_sumDigTerm(8))
+print(power_sumDigTerm(9))
+print(power_sumDigTerm(10))
+print(power_sumDigTerm(11))

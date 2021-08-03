@@ -1,16 +1,26 @@
-def closest(strng):
-    if not strng:
-        return []
-    spisok = sorted([[sum(map(int, i)), j, int(i)] for j, i in enumerate(strng.split())])
-    spisok_vix = [spisok[0], spisok[1]]
-    for i in range(1, len(spisok)-1):
-        if spisok[i+1][0]-spisok[i][0] < spisok_vix[1][0]-spisok_vix[0][0]:
-            spisok_vix = [spisok[i], spisok[i+1]]
-    return spisok_vix
+def f(n):
+    end_kol_chet = 0
+    if n % 2 == 1:
+        n -= 1
+    a = list(range(n + 1))
+    a[1] = 0
+    for i in a:
+        if i > 1:
+            for j in range(i + i, len(a), i):
+                a[j] = 0
+        i += 1
+    lst = [x for x in a if x != 0]
+    lst.reverse()
+    lst = lst[:int(len(lst)*0.3)]
+    for i in lst:
+        if len([j for j in str(i) if int(j) % 2 == 0]) > end_kol_chet:
+            end_kol_chet = len([j for j in str(i) if int(j) % 2 == 0])
+            end_chis = i
+    return end_chis
 
 
-print(closest("103 123 4444 99 2000"))
-print(closest("456899 50 11992 176 272293 163 389128 96 290193 85 52"))
-print(closest("239382 162 254765 182 485944 134 468751 62 49780 108 54"))
-print(closest("241259 154 155206 194 180502 147 300751 200 406683 37 57"))
-print(closest("89998 187 126159 175 338292 89 39962 145 394230 167 1"))
+print(f(4683621))
+print(f(3563331))
+print(f(2714150))
+print(f(500))
+print(f(487))

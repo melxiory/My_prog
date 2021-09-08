@@ -1,90 +1,32 @@
-def zero(arg=None):
-    if not arg:
-        return 0
+def gap(g, m, n):
+    mnog = set(range(3, n+1, 2))
+    mnog.add(2)
+    for i in range(3, int(n+1), 2):
+        if i in mnog:
+            mnog -= set(range(2*i, n+1, i))
+    lst = sorted(i for i in mnog if i >= m)
+    nach = lst[0]
+    for i in lst[1:]:
+        if i - nach == g:
+            return [nach, i]
+        nach = i
     else:
-        return eval(f'0{arg}')
+        return None
 
 
-def one(arg=None):
-    if not arg:
-        return 1
-    else:
-        return eval(f'1{arg}')
+print(gap(2, 100, 110))
+print(gap(4, 100, 110))
+print(gap(6, 100, 110))
+print(gap(8, 300, 400))
+print(gap(10, 300, 400))
+print(gap(2, 100, 103))
 
-
-def two(arg=None):
-    if not arg:
-        return 2
-    else:
-        return eval(f'2{arg}')
-
-
-def three(arg=None):
-    if not arg:
-        return 3
-    else:
-        return eval(f'3{arg}')
-
-
-def four(arg=None):
-    if not arg:
-        return 4
-    else:
-        return eval(f'4{arg}')
-
-
-def five(arg=None):
-    if not arg:
-        return 5
-    else:
-        return eval(f'5{arg}')
-
-
-def six(arg=None):
-    if not arg:
-        return 6
-    else:
-        return eval(f'6{arg}')
-
-
-def seven(arg=None):
-    if not arg:
-        return 7
-    else:
-        return eval(f'7{arg}')
-
-
-def eight(arg=None):
-    if not arg:
-        return 8
-    else:
-        return eval(f'8{arg}')
-
-
-def nine(arg=None):
-    if not arg:
-        return 9
-    else:
-        return eval(f'9{arg}')
-
-
-def plus(arg):
-    return f'+{arg}'
-
-
-def minus(arg):
-    return f'-{arg}'
-
-
-def times(arg):
-    return f'*{arg}'
-
-
-def divided_by(arg):
-    return f'//{arg}'
-
-
-print(seven(times(five())))
-print(four(plus(nine())))
-print(eight(minus(three())))
-print(six(divided_by(two())))
+"""
+a = list(range(n + 1))
+    a[1] = 0
+    for i in a:
+        if i > 1:
+            for j in range(i + i, len(a), i):
+                a[j] = 0
+    lst = [x for x in a if x != 0 and x > m]
+"""

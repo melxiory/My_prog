@@ -1,17 +1,18 @@
 def gap(g, m, n):
-    mnog = set(range(3, n+1, 2))
-    mnog.add(2)
-    for i in range(3, int(n+1), 2):
-        if i in mnog:
-            mnog -= set(range(2*i, n+1, i))
-    lst = sorted(i for i in mnog if i >= m)
-    nach = lst[0]
-    for i in lst[1:]:
-        if i - nach == g:
-            return [nach, i]
-        nach = i
-    else:
-        return None
+    previous_prime = n
+    for i in range(m, n + 1):
+        if is_prime(i):
+            if i - previous_prime == g:
+                return [previous_prime, i]
+            previous_prime = i
+    return None
+
+
+def is_prime(n):
+    for i in range(2, int(n ** .5 + 1)):
+        if n % i == 0:
+            return False
+    return True
 
 
 print(gap(2, 100, 110))

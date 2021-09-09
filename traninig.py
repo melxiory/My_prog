@@ -1,33 +1,20 @@
-def gap(g, m, n):
-    previous_prime = n
-    for i in range(m, n + 1):
-        if is_prime(i):
-            if i - previous_prime == g:
-                return [previous_prime, i]
-            previous_prime = i
-    return None
+def my_crib(n):
+    home_roof = f'{"  " * n}{"_" * ((n - 1) * 2 + 3)}{"  " * n}\n'
+    home_side = ''
+    for roof_side in range(n * 2 - 1):
+        home_roof += f'{" " * (n * 2 - roof_side - 1)}/{"_" * ((n - 1) * 2 + 3) + "__" * roof_side}\\{" " * (n * 2 - roof_side - 1)}\n'
+        if n * 2 - (roof_side+1) > n:
+            home_side += f'|{"     " + " " * ((n - 1) * 6)}|\n'
+        elif n * 2 - (roof_side+1) == n:
+            home_side += f'|{" " * (n*2-1)} {"_" * (n*2-1)} {" " * (n*2-1)}|\n'
+        else:
+            home_side += f'|{" " * (n*2-1)}|{" " * (n*2-1)}|{" " * (n*2-1)}|\n'
+    else:
+        home_roof += f'/{"_____" + "_" * ((n - 1) * 6)}\\\n'
+        home_side += f'|{"_" * (n*2-1)}|{"_" * (n*2-1)}|{"_" * (n*2-1)}|'
+    return home_roof + home_side
 
 
-def is_prime(n):
-    for i in range(2, int(n ** .5 + 1)):
-        if n % i == 0:
-            return False
-    return True
-
-
-print(gap(2, 100, 110))
-print(gap(4, 100, 110))
-print(gap(6, 100, 110))
-print(gap(8, 300, 400))
-print(gap(10, 300, 400))
-print(gap(2, 100, 103))
-
-"""
-a = list(range(n + 1))
-    a[1] = 0
-    for i in a:
-        if i > 1:
-            for j in range(i + i, len(a), i):
-                a[j] = 0
-    lst = [x for x in a if x != 0 and x > m]
-"""
+print(my_crib(1))
+print(my_crib(2))
+print(my_crib(3))

@@ -1,29 +1,8 @@
 def id_best_users(*args):
-    set_pers = set(args[0])
-    dict_pers = []
-    for list_1_level in args[1:]:
-        set_pers &= set(list_1_level)
-    for items in set_pers:
-        count_item = 0
-        for list_1_level_2 in args:
-            count_item += list_1_level_2.count(items)
-        else:
-            if [count_item, [items]] not in dict_pers:
-                dict_pers.append([count_item, [items]])
-    if not dict_pers:
-        return []
-    list_pers = [dict_pers[0]]
-    for i in dict_pers[1:]:
-        for j in list_pers:
-            if j[0] == i[0]:
-                j[1].append(i[1][0])
-                break
-        else:
-            list_pers.append(i)
-    for i in list_pers:
-        i[1].sort()
-    list_pers.sort(reverse=True)
-    return list_pers
+    dct_m = set.intersection(*[set(x for x in arg) for arg in args])
+    dct = {u: sum(arg.count(u) for arg in args) for u in dct_m}
+    dct_r = [[x, sorted(u)] for x in set(dct.values()) for u in [[y for y in dct.keys() if dct[y] == x]]]
+    return sorted(dct_r, reverse=True)
 
 
 print(id_best_users(

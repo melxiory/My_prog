@@ -1,52 +1,44 @@
-def id_best_users(*args):
-    dct_m = set.intersection(*[set(x for x in arg) for arg in args])
-    dct = {u: sum(arg.count(u) for arg in args) for u in dct_m}
-    dct_r = [[x, sorted(u)] for x in set(dct.values()) for u in [[y for y in dct.keys() if dct[y] == x]]]
-    return sorted(dct_r, reverse=True)
+def moving_shift(s, shift):
+    alfavit = 'ABCDEFGHIJKLMNOPQRSTUVWXYZABCDEFGHIJKLMNOPQRSTUVWXYZ'
+    strok_shift = ''
+    for i in s:
+        if i.isupper():
+            strok_shift += alfavit[(alfavit.find(i) + shift) % len(alfavit)]
+            shift += 1
+        elif not i.isalpha() or i in 'éâè':
+            strok_shift += i
+            shift += 1
+        else:
+            strok_shift += alfavit[(alfavit.find(i.upper()) + shift) % len(alfavit)].lower()
+            shift += 1
+    split_strok_cel = (len(strok_shift) - 1) // 5
+    list_itog = []
+    for j in range(4):
+        list_itog.append(strok_shift[:split_strok_cel + 1])
+        strok_shift = strok_shift[split_strok_cel + 1:]
+    else:
+        list_itog.append(strok_shift)
+    return list_itog
 
 
-print(id_best_users(
-    ['A017', 'D002', 'A021', 'A007', 'A028', 'B002', 'C023', 'C015', 'A002', 'D004', 'D023', 'B018', 'A016', 'D027',
-     'B008', 'A008', 'A004', 'A013', 'A008', 'A026', 'D015', 'A015', 'D020', 'C011', 'A002', 'A027', 'C016', 'B002',
-     'D022', 'D023', 'D002', 'D021', 'D009', 'A012', 'D001', 'A013', 'A012', 'A020', 'C015', 'C009', 'D011', 'A023',
-     'A002', 'A017', 'C003', 'D021', 'B025', 'A021', 'B011', 'D018', 'C002', 'A018', 'B020', 'A023', 'D005', 'A007',
-     'A029', 'D020', 'C008', 'B021', 'C024', 'C026', 'A028', 'B020', 'B011', 'C021'], [
-        'B007', 'A021', 'C018', 'B016', 'B025', 'A027', 'B029', 'B017', 'A005', 'D009', 'D011', 'B026', 'A017', 'B027',
-        'C025', 'C004', 'A003', 'A019', 'A005', 'B024', 'D006', 'C009', 'C010', 'A023', 'D028', 'C012', 'A008', 'A002',
-        'C023', 'A007', 'A029', 'C020', 'C017', 'C011', 'D005', 'A018', 'A010', 'A018', 'D017', 'D025', 'C001', 'D025',
-        'B003', 'B020', 'D016', 'C022', 'A013', 'C007', 'A007', 'A015', 'D004', 'A018', 'C022', 'A020', 'C007', 'D009',
-        'B010', 'B004', 'B001', 'C012'],
-    [
-        'A006', 'A028', 'B025', 'C026', 'D025', 'C021', 'B026', 'B029', 'C009', 'B021', 'B021', 'A026', 'C018', 'B016',
-        'C001', 'C005', 'A003', 'C010', 'A021', 'C005', 'C015', 'B020', 'A022', 'A003', 'C020', 'B009', 'A015', 'C007',
-        'B010', 'C028', 'D013', 'D020', 'B012', 'A020', 'B020', 'D011', 'A016', 'D004', 'B013', 'D016', 'A007', 'A029',
-        'C027', 'B002', 'D005', 'B011', 'C011', 'A007', 'D003', 'D010', 'C014', 'C027', 'B016', 'C018', 'C002', 'C012',
-        'D017', 'C002', 'D007', 'C009', 'A021'], [
-        'C025', 'A012', 'C014', 'C013', 'D004', 'A029', 'C009', 'D023', 'B019', 'C020', 'C006', 'A024', 'B005', 'C021',
-        'A017', 'D020', 'A028', 'A027', 'D007', 'C026', 'B016', 'C027', 'C022', 'B019', 'C005', 'C026', 'D001', 'C027',
-        'B011', 'A014', 'C019', 'C006', 'D027', 'B026', 'B015', 'D029', 'A028', 'D028', 'D014', 'D007', 'D022', 'B004',
-        'C028', 'D015', 'D015', 'A021', 'C023', 'A006', 'C005', 'B022', 'B015', 'B029', 'B001', 'A006', 'B014', 'C023',
-        'B003', 'C019', 'B025', 'A005', 'A023', 'B019', 'A007', 'B025'], [
-        'D015', 'D007', 'D010', 'A001', 'D018', 'B015', 'B002', 'C023', 'B022', 'D012', 'B001', 'B023', 'C009', 'D023',
-        'D027', 'C016', 'C001', 'D011', 'A024', 'A018', 'D023', 'B012', 'D018', 'D012', 'B001', 'A009', 'B017', 'A020',
-        'D022', 'B008', 'B018', 'C029', 'A024', 'B022', 'A027', 'A025', 'A027', 'A028', 'B027', 'A004', 'B014', 'C027',
-        'A013', 'A005', 'A012', 'B019', 'A006', 'B001', 'C023', 'B007', 'D013', 'D015', 'C018', 'B028', 'B028', 'D023',
-        'A003'], [
-        'B016', 'A003', 'A009', 'B020', 'C019', 'C029', 'C007', 'D001', 'A023', 'A020', 'B022', 'D022', 'C026', 'C013',
-        'C005', 'B004', 'A013', 'D018', 'A028', 'C023', 'D006', 'A012', 'D003', 'D012', 'C001', 'C004', 'C021', 'C021',
-        'C027', 'D010', 'A019', 'C009', 'B006', 'D013', 'A015', 'B008', 'A017', 'A001', 'D020', 'D018', 'C003', 'C026',
-        'A001', 'A011', 'B020', 'A008', 'D007', 'D015', 'C011', 'B019', 'D017', 'A021', 'D018', 'D029', 'B002', 'C029',
-        'A021', 'A023'], [
-        'C024', 'A027', 'B006', 'C003', 'D012', 'D027', 'C020', 'A018', 'B001', 'B020', 'C020', 'A025', 'C022', 'C015',
-        'B007', 'B027', 'D025', 'A006', 'B029', 'D020', 'D026', 'B015', 'A023', 'C006', 'B003', 'A019', 'D006', 'C015',
-        'C016', 'B013', 'A029', 'A003', 'C018', 'D009', 'B027', 'C021', 'B027', 'A003', 'B029', 'C026', 'A011', 'C020',
-        'C021', 'B027', 'C012', 'D026', 'B012', 'B020', 'D008', 'D016', 'B008', 'A026', 'B015', 'B010', 'A016', 'C001',
-        'D012', 'B007', 'B006', 'C004', 'A009', 'D018', 'B004', 'C021', 'B009', 'A015', 'C020', 'A009', 'D023', 'D020',
-        'C013', 'D004', 'A027', 'B025', 'C002', 'B028', 'C016']))
-print(id_best_users(['A043', 'B004', 'A025', 'A042', 'C025'],
-                    ['B009', 'B040', 'B003', 'A042', 'A027', 'A044'],
-                    ['A041', 'A026', 'B005']))
-print(id_best_users(['A042', 'B004', 'A025', 'A042', 'C025'],
-                    ['B009', 'B040', 'B004', 'A042', 'A025', 'A042'],
-                    ['A042', 'B004', 'A025', 'A042', 'C025', 'B009', 'B040', 'B004', 'A042', 'A025', 'A042'],
-                    ['A042', 'A025', 'B004']))
+def demoving_shift(s, shift):
+    alfavit = 'ABCDEFGHIJKLMNOPQRSTUVWXYZABCDEFGHIJKLMNOPQRSTUVWXYZ'
+    s = ''.join(s)
+    strok_shift = ''
+    for i in s:
+        if i.isupper():
+            strok_shift += alfavit[(alfavit.find(i) - shift) % len(alfavit)]
+            shift += 1
+        elif not i.isalpha() or i in 'éâè':
+            strok_shift += i
+            shift += 1
+        else:
+            strok_shift += alfavit[(alfavit.find(i.upper()) - shift) % len(alfavit)].lower()
+            shift += 1
+    return strok_shift
+
+
+print(moving_shift('os  afneewuftllzisohtj tbeca gikgeeeuiJ azxsoxaiOstaeaoemy eioecusdaorod eLiaaka', 13))
+print(
+    demoving_shift(moving_shift('os  afneewuftllzisohtj tbeca gikgeeeuiJ azxsoxaiOstaeaoemy eioecusdaorod eLiaaka', 13),
+                   13))

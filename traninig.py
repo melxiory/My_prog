@@ -1,42 +1,19 @@
-def moving_shift(s, shift):
-    alfavit = 'ABCDEFGHIJKLMNOPQRSTUVWXYZABCDEFGHIJKLMNOPQRSTUVWXYZ'
-    strok_shift = ''
-    for i in s:
-        if i.isupper():
-            strok_shift += alfavit[(alfavit.find(i) + shift) % len(alfavit)]
-            shift += 1
-        elif not i.isalpha() or i in 'éâè':
-            strok_shift += i
-            shift += 1
-        else:
-            strok_shift += alfavit[(alfavit.find(i.upper()) + shift) % len(alfavit)].lower()
-            shift += 1
-    split_strok_cel = (len(strok_shift) - 1) // 5
-    list_itog = []
-    for j in range(4):
-        list_itog.append(strok_shift[:split_strok_cel + 1])
-        strok_shift = strok_shift[split_strok_cel + 1:]
-    else:
-        list_itog.append(strok_shift)
-    return list_itog
+from string import ascii_lowercase as abc, ascii_uppercase as ABC
+from math import ceil
 
+def _code(string, shift, mode):
+    return ''.join(
+        abc[(abc.index(c) + i*mode + shift) % len(abc)] if c in abc else
+        ABC[(ABC.index(c) + i*mode + shift) % len(ABC)] if c in ABC else c
+        for i, c in enumerate(string))
 
-def demoving_shift(s, shift):
-    alfavit = 'ABCDEFGHIJKLMNOPQRSTUVWXYZABCDEFGHIJKLMNOPQRSTUVWXYZ'
-    s = ''.join(s)
-    strok_shift = ''
-    for i in s:
-        if i.isupper():
-            strok_shift += alfavit[(alfavit.find(i) - shift) % len(alfavit)]
-            shift += 1
-        elif not i.isalpha() or i in 'éâè':
-            strok_shift += i
-            shift += 1
-        else:
-            strok_shift += alfavit[(alfavit.find(i.upper()) - shift) % len(alfavit)].lower()
-            shift += 1
-    return strok_shift
+def moving_shift(string, shift):
+    encoded = _code(string, shift, 1)
+    cut = int(ceil(len(encoded) / 5.0))
+    return [encoded[i : i+cut] for i in range(0, 5 * cut, cut)]
 
+def demoving_shift(arr, shift):
+    return _code(''.join(arr), -shift, -1)
 
 print(moving_shift('os  afneewuftllzisohtj tbeca gikgeeeuiJ azxsoxaiOstaeaoemy eioecusdaorod eLiaaka', 13))
 print(

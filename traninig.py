@@ -1,37 +1,33 @@
-class Lunch:
-    def __init__(self):
-        self.customer = Customer()
-        self.employee = Employee()
+def exp_sum(n):
+    dic = {}
 
-    def order(self, foodName):
-        self.customer.placeOrder(foodName, self.employee)
+    def p(n, k):
+        if n < k:
+            return 0
+        if n == k:
+            return 1
+        if k == 0:
+            return 0
 
-    def result(self):
-        self.customer.printFood()
+        key = str(n) + ',' + str(k)
+        try:
+            temp = dic[key]
+        except:
+            temp = p(n - 1, k - 1) + p(n - k, k)
+            dic[key] = temp
+        finally:
+            return temp
+
+    partitions_count = 0
+
+    for k in range(n + 1):
+        partitions_count += p(n, k)
+    return partitions_count
 
 
-class Customer:
-    def __init__(self):
-        self.food = None
-
-    def placeOrder(self, foodName, employee):
-        self.food = employee.takeOrder((foodName))
-
-    def printFood(self):
-        print('Food name - ', self.food.name)
-
-
-class Employee:
-    def takeOrder(self, foodName):
-        return Food(foodName)
-
-
-class Food:
-    def __init__(self, name):
-        self.name = name
-
-x = Lunch()
-x.order('bigmac')
-x.result()
-x.order('pizza')
-x.result()
+print(exp_sum(1))
+print(exp_sum(2))
+print(exp_sum(3))
+print(exp_sum(4))
+print(exp_sum(5))
+print(exp_sum(10))

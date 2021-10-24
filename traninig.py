@@ -1,33 +1,16 @@
-def exp_sum(n):
-    dic = {}
+def mix(s1, s2):
+    list_1 = list({'1:' + i * s1.count(i) if s2.count(i) != s1.count(i) else '=:' + i * s1.count(i) for i in s1 if
+                   96 < ord(i) < 123 and s1.count(i) > 1 and s2.count(i) <= s1.count(i)})
+    list_2 = list(
+        {'2:' + i * s2.count(i) for i in s2 if
+         96 < ord(i) < 123 and s2.count(i) > 1 and s2.count(i) != s1.count(i) and s1.count(i) < s2.count(i)})
+    list_end = list_2 + list_1
+    list_end = sorted(list_end, key=lambda i: (-len(i), i[0], i[2]))
 
-    def p(n, k):
-        if n < k:
-            return 0
-        if n == k:
-            return 1
-        if k == 0:
-            return 0
-
-        key = str(n) + ',' + str(k)
-        try:
-            temp = dic[key]
-        except:
-            temp = p(n - 1, k - 1) + p(n - k, k)
-            dic[key] = temp
-        finally:
-            return temp
-
-    partitions_count = 0
-
-    for k in range(n + 1):
-        partitions_count += p(n, k)
-    return partitions_count
+    return '/'.join(list_end)
 
 
-print(exp_sum(1))
-print(exp_sum(2))
-print(exp_sum(3))
-print(exp_sum(4))
-print(exp_sum(5))
-print(exp_sum(10))
+print(mix("Are they here", "yes, they are here"))
+print(mix("Sadus:cpms>orqn3zecwGvnznSgacs", "MynwdKizfd$lvse+gnbaGydxyXzayp"))
+print(mix("looping is fun but dangerous", "less dangerous than coding"))
+print(mix("codewars", "codewars"))

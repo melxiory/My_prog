@@ -1,16 +1,24 @@
-def mix(s1, s2):
-    list_1 = list({'1:' + i * s1.count(i) if s2.count(i) != s1.count(i) else '=:' + i * s1.count(i) for i in s1 if
-                   96 < ord(i) < 123 and s1.count(i) > 1 and s2.count(i) <= s1.count(i)})
-    list_2 = list(
-        {'2:' + i * s2.count(i) for i in s2 if
-         96 < ord(i) < 123 and s2.count(i) > 1 and s2.count(i) != s1.count(i) and s1.count(i) < s2.count(i)})
-    list_end = list_2 + list_1
-    list_end = sorted(list_end, key=lambda i: (-len(i), i[0], i[2]))
+def find_all(sum_dig, digs):
+    def _part(n, k, pre):
+        if n <= 0:
+            return []
+        if k == 1:
+            if n <= pre:
+                return [[n]]
+            return []
+        ret = []
+        for i in range(min(pre, n), 0, -1):
+            if len(str(i)) == 1:
+                ret += [[i] + sub for sub in _part(n-i, k-1, i)]
+        return ret
+    list_dig = sorted(map(sorted, _part(sum_dig, digs, sum_dig)))
+    return [len(list_dig), int(''.join(map(str, list_dig[0]))), int(''.join(map(str, list_dig[len(list_dig)-1])))] if list_dig else []
 
-    return '/'.join(list_end)
 
 
-print(mix("Are they here", "yes, they are here"))
-print(mix("Sadus:cpms>orqn3zecwGvnznSgacs", "MynwdKizfd$lvse+gnbaGydxyXzayp"))
-print(mix("looping is fun but dangerous", "less dangerous than coding"))
-print(mix("codewars", "codewars"))
+
+
+print(find_all(10, 3))
+print(find_all(27, 3))
+print(find_all(84, 4))
+print(find_all(35, 6))

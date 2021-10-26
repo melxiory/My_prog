@@ -1,18 +1,11 @@
+from itertools import combinations_with_replacement
+
 def find_all(sum_dig, digs):
-    def _part(n, k, pre):
-        if n <= 0:
-            return []
-        if k == 1:
-            if n <= pre:
-                return [[n]]
-            return []
-        ret = []
-        for i in range(min(pre, n), 0, -1):
-            if len(str(i)) == 1:
-                ret += [[i] + sub for sub in _part(n-i, k-1, i)]
-        return ret
-    list_dig = sorted(map(sorted, _part(sum_dig, digs, sum_dig)))
-    return [len(list_dig), int(''.join(map(str, list_dig[0]))), int(''.join(map(str, list_dig[len(list_dig)-1])))] if list_dig else []
+    combs = combinations_with_replacement(list(range(1, 10)), digs)
+    target = [''.join(str (x) for x in list(comb)) for comb in combs if sum(comb) == sum_dig]
+    if not target:
+        return []
+    return [len(target), int(target[0]), int(target[-1])]
 
 
 

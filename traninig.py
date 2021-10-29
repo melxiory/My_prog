@@ -1,17 +1,32 @@
-from itertools import combinations_with_replacement
-
-def find_all(sum_dig, digs):
-    combs = combinations_with_replacement(list(range(1, 10)), digs)
-    target = [''.join(str (x) for x in list(comb)) for comb in combs if sum(comb) == sum_dig]
-    if not target:
-        return []
-    return [len(target), int(target[0]), int(target[-1])]
+seq = [0, 1, 2, 2]
 
 
+def find(n):
+    if n not in seq:
+        for i in range(n+1):
+            if i not in seq:
+                seq.extend([i]*seq[i])
+        else:
+            seq_count =[]
+            count_seq = 2
+            sum_count = 1
+            for i in range(3, n+1):
+                if seq.count(i) == count_seq:
+                    sum_count += 1
+                else:
+                    seq_count.append([sum_count, count_seq])
+                    count_seq += 1
+                    sum_count = 1
+            else:
+                seq_count.append([sum_count, count_seq])
+            return seq_count, seq.count(n)
+    else:
+        return seq.count(n) if n else 0
 
 
-
-print(find_all(10, 3))
-print(find_all(27, 3))
-print(find_all(84, 4))
-print(find_all(35, 6))
+print(find(1000))
+print(find(2000))
+print(find(3000))
+print(find(3))
+print(find(4))
+print(find(5))

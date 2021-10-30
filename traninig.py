@@ -1,32 +1,37 @@
-seq = [0, 1, 2, 2]
+def add(a, b, c):
+    return a + b + c
 
 
-def find(n):
-    if n not in seq:
-        for i in range(n+1):
-            if i not in seq:
-                seq.extend([i]*seq[i])
-        else:
-            seq_count =[]
-            count_seq = 2
-            sum_count = 1
-            for i in range(3, n+1):
-                if seq.count(i) == count_seq:
-                    sum_count += 1
-                else:
-                    seq_count.append([sum_count, count_seq])
-                    count_seq += 1
-                    sum_count = 1
-            else:
-                seq_count.append([sum_count, count_seq])
-            return seq_count, seq.count(n)
-    else:
-        return seq.count(n) if n else 0
+a = 1
+b = 2
+c = 3
+sum = a + b + c
+
+from inspect import signature
+from functools import partial
 
 
-print(find(1000))
-print(find(2000))
-print(find(3000))
-print(find(3))
-print(find(4))
-print(find(5))
+def curry_partial(main_func, *args):
+    if not (callable(main_func)):
+        return main_func
+
+    p = len(signature(main_func).parameters)
+    func = partial(main_func)
+
+    for a in args:
+        if len(func.args) == p: break
+        func = partial(func, a)
+
+    if len(func.args) < p:
+        return partial(curry_partial, main_func, *func.args)
+
+    return func()
+
+print(curry_partial(add, a)(b)(c))
+print(curry_partial(curry_partial(curry_partial(add, a)), b, c))
+print(curry_partial(curry_partial(add, a, b), c))
+
+print(curry_partial(add, a)(b, c))
+print(curry_partial(add, a, b, c))
+print(curry_partial(add, a, b, c, 20))
+print(curry_partial(add)(a, b, c))

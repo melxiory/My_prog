@@ -1,37 +1,34 @@
-def add(a, b, c):
-    return a + b + c
+import numpy, statistics
 
 
-a = 1
-b = 2
-c = 3
-sum = a + b + c
+def accel_asc(n):
+    a = [0 for i in range(n + 1)]
+    k = 1
+    y = n - 1
+    while k != 0:
+        x = a[k - 1] + 1
+        k -= 1
+        while 2 * x <= y:
+            a[k] = x
+            y -= x
+            k += 1
+        l = k + 1
+        while x <= y:
+            a[k] = x
+            a[l] = y
+            yield a[:k + 2]
+            x += 1
+            y -= 1
+        a[k] = x + y
+        y = x + y - 1
+        yield a[:k + 1]
 
-from inspect import signature
-from functools import partial
+
+def part(n):
+    partitions_of = list(accel_asc(n))
+    prod = sorted(set([numpy.prod(i) for i in partitions_of]))
+    return f"Range: {prod[len(prod) - 1] - prod[0]} Average: {sum(prod) / len(prod):.2f} Median: {statistics.median(prod):.2f}"
 
 
-def curry_partial(main_func, *args):
-    if not (callable(main_func)):
-        return main_func
+print(part(10))
 
-    p = len(signature(main_func).parameters)
-    func = partial(main_func)
-
-    for a in args:
-        if len(func.args) == p: break
-        func = partial(func, a)
-
-    if len(func.args) < p:
-        return partial(curry_partial, main_func, *func.args)
-
-    return func()
-
-print(curry_partial(add, a)(b)(c))
-print(curry_partial(curry_partial(curry_partial(add, a)), b, c))
-print(curry_partial(curry_partial(add, a, b), c))
-
-print(curry_partial(add, a)(b, c))
-print(curry_partial(add, a, b, c))
-print(curry_partial(add, a, b, c, 20))
-print(curry_partial(add)(a, b, c))

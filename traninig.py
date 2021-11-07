@@ -1,33 +1,13 @@
-import numpy, statistics
-
-
-def accel_asc(n):
-    a = [0 for i in range(n + 1)]
-    k = 1
-    y = n - 1
-    while k != 0:
-        x = a[k - 1] + 1
-        k -= 1
-        while 2 * x <= y:
-            a[k] = x
-            y -= x
-            k += 1
-        l = k + 1
-        while x <= y:
-            a[k] = x
-            a[l] = y
-            yield a[:k + 2]
-            x += 1
-            y -= 1
-        a[k] = x + y
-        y = x + y - 1
-        yield a[:k + 1]
-
+def prod(n):
+    ret = [{1.}]
+    for i in range(1, n+1):
+        ret.append({(i - x) * j for x, s in enumerate(ret) for j in s})
+    return ret[-1]
 
 def part(n):
-    partitions_of = list(accel_asc(n))
-    prod = sorted(set([numpy.prod(i) for i in partitions_of]))
-    return f"Range: {prod[len(prod) - 1] - prod[0]} Average: {sum(prod) / len(prod):.2f} Median: {statistics.median(prod):.2f}"
+    p = sorted(prod(n))
+    return "Range: %d Average: %.2f Median: %.2f" % \
+            (p[-1] - p[0], sum(p) / len(p), (p[len(p)//2] + p[~len(p)//2]) / 2)
 
 
 print(part(10))

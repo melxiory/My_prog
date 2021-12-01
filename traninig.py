@@ -1,30 +1,19 @@
-def paren(left, right=None):
-    if right is None:
-        right = left  # allows calls with one argument
-
-    if left == right == 0: # base case
-        yield ""
-
-    else:
-        if left > 0:
-            for p in paren(left-1, right): # first recursion
-                yield "("+p
-
-        if right > left:
-            for p in paren(left, right-1): # second recursion
-                yield ")"+p
-
-def balanced_parens(n, k):
-    parens = []
-    for i in paren(n):
-        parens.append(i)
-        if len(parens) > k:
-            break
-    return parens[k] if len(parens) > k > -1 else None
+from fractions import Fraction
+from math import factorial
 
 
-print(balanced_parens(0, 0))
-print(balanced_parens(1, 0))
-print(balanced_parens(2, 0))
-print(balanced_parens(3, 5))
-print(balanced_parens(3, -1))
+def expand(x, digit):
+    x = Fraction(f'{x}')
+    value_1 = factorial_k = 1
+    while True:
+        if len(str(value_1.numerator)) >= digit:
+            return [value_1.numerator, value_1.denominator]
+        value_1 += Fraction(x ** factorial_k, factorial(factorial_k))
+        factorial_k += 1
+
+print(expand(1.6, 10))
+print(expand(1, 2))
+print(expand(2, 5))
+print(expand(3, 10))
+print(expand(1.5, 10))
+print(expand(1.6, 10))

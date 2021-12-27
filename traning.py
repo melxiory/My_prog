@@ -1,44 +1,25 @@
 import sys
 
-
-def fetch_input():
-    global v
-    segments = []
-    n, v = tuple([int(i) for i in sys.stdin.readline().strip().split()])
-    for _ in range(n):
-        segments.append(tuple([int(i) for i in sys.stdin.readline().strip().split()]))
-    return segments
+n = int(sys.stdin.readline())
 
 
-segments = fetch_input()
-segments.sort(key=lambda x: x[0]/x[1])
-segments.reverse()
-
-
-def knap_sack(list_seg):
-    list_rez = []
-    for i in list_seg:
-        if not list_rez:
-            if v < i[1]:
-                list_rez.append(i[0]*(v/i[1]))
-                break
-            else:
-                list_rez.append(i[0])
-                list_rez.append(i[1])
-            if v == i[1]:
-                list_rez.append(i[0])
-                break
+def var_terms(n):
+    if n == 1:
+        return [1]
+    if n == 2:
+        return [2]
+    list_term = [1]
+    sum_terms = 1
+    for i in range(2, n + 1):
+        if sum_terms + i + i + 1 <= n:
+            sum_terms += i
+            list_term.append(i)
             continue
-        if list_rez[1] + i[1] > v:
-            list_rez[0] += i[0]*((v-list_rez[1])/i[1])
+        elif sum_terms + i == n:
+            sum_terms += i
+            list_term.append(i)
             break
-        elif list_rez[1] + i[1] == v:
-            list_rez[0] += i[0]
-            break
-        else:
-            list_rez[0] += i[0]
-            list_rez[1] += i[1]
-    return f'{list_rez[0]:.3f}'
+    return list_term
 
 
-print(knap_sack(segments))
+print(var_terms(n))

@@ -1,41 +1,66 @@
-import sys
+import sys, random, bisect
 
-r = int(sys.stdin.readline())
-A = list(map(int, sys.stdin.readline().strip().split()[:n]))
+n = int(sys.stdin.readline().strip().split()[0])
+left_points, right_points = [0], [0]
+for _ in range(n):
+    i = tuple(map(int, sys.stdin.readline().strip().split()))
+    left_points += [i[0]]
+    right_points += [i[1]]
+else:
+    del left_points[0]
+    del right_points[0]
+points = list(map(int, sys.stdin.readline().strip().split()))
 
-revers = 0
 
-
-def merge(i, j):
-    global revers
-    Q = [0]
-    while i or j:
-        if not i:
-            Q += j
-            break
-        if not j:
-            Q += i
-            break
-        if i[0] > j[0]:
-            Q += [j[0]]
-            revers += len(i)
-            del j[0]
+def partition3(A, l, r):
+    lt = l
+    i = l
+    gt = r
+    pivot = A[l]
+    while i <= gt:
+        if A[i] < pivot:
+            A[lt], A[i] = A[i], A[lt]
+            lt += 1
+            i += 1
+        elif A[i] > pivot:
+            A[i], A[gt] = A[gt], A[i]
+            gt -= 1
         else:
-            Q += [i[0]]
-            del i[0]
-    del Q[0]
-    return Q
+            i += 1
+
+    return lt, gt
 
 
-def merge_sort(spis):
-    dlin = len(spis)
-    if dlin > 1:
-        m = dlin // 2
-        return merge(merge_sort(spis[:m + 1 if dlin > 2 and dlin % 2 else m]),
-                     merge_sort(spis[m + 1 if dlin > 2 and dlin % 2 else m:]))
-    else:
-        return spis
+def quick_sort(A, l, r):
+    if l >= r:
+        return
+    k = random.randint(l, r)
+    A[k], A[l] = A[l], A[k]
+    lt, gt = partition3(A, l, r)
+    quick_sort(A, l, lt - 1)
+    quick_sort(A, gt + 1, r)
 
 
-merge_sort(A)
-print(revers)
+def left_segm_p(k):
+    acc = 0
+    for i in left_points:
+        if k >= i:
+            acc += len(left_points[left_points.index(i):])
+            break
+    return acc
+
+
+def right_segm_p(k):
+    acc = 0
+    for i in right_points:
+        if k > i:
+            acc += len(right_points[right_points.index(i):])
+            break
+    return acc
+
+
+quick_sort(left_points, 0, len(left_points)-1)
+quick_sort(right_points, 0, len(right_points)-1)
+for i in range(len(points)):
+    points[i] = str(bisect.bisect_right(left_points, points[i]) - bisect.bisect_left(right_points, points[i]))
+print(' '.join(points))

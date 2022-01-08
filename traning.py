@@ -1,20 +1,12 @@
-import sys, functools
+import sys
 
-list_A = str(sys.stdin.readline().strip())
-list_B = str(sys.stdin.readline().strip())
-def my_dist(a, b):
-    @ functools.lru_cache(maxsize=len(a) * len(b))
-    def recursive(i, j):
-        if i == 0 or j == 0:
-            return max(i, j)
-        elif a[i - 1] == b[j - 1]:
-            return recursive(i - 1, j - 1)
-        else:
-            return 1 + min(
-                recursive(i, j - 1),
-                recursive(i - 1, j),
-                recursive(i - 1, j - 1)
-            )
-    return recursive(len(a), len(b))
-
-print(my_dist(list_A, list_B))
+W, n = [int(i) for i in sys.stdin.readline().strip().split()]
+list_W = [int(i) for i in sys.stdin.readline().strip().split()]
+H = [1] + [0]*W
+for i in range(n):
+    for j in range(W, list_W[i] - 1, -1):
+        if H[j - list_W[i]] == 1:
+            H[j] = 1
+while H[W] == 0:
+    W -= 1
+print(W)

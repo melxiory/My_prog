@@ -1,8 +1,26 @@
 import sys
 
-n = int(sys.stdin.readline())
-list_A = [int(i) for i in sys.stdin.readline().strip().split()]
-list_B = [0] + [list_A[0]] + [False]*(n-1)
-for i in range(1, len(list_A)):
-    list_B[i+1] = max(list_B[i-1], list_B[i]) + list_A[i]
-print(list_B[-1])
+n = str(sys.stdin.readline().strip())
+stack = []
+ind_val = []
+
+def balanced(s):
+    for ch in enumerate(s):
+        if ch[1] not in ['(', '{', '[',']','}',')']:
+            continue
+        if ch[1] in ['(', '{', '[']:
+            stack.append(ch)
+        else:
+            if not stack:
+                return ch[0]+1
+            top = stack.pop()[1]
+            if top == '(' and ch[1] != ')' or \
+                    top == '[' and ch[1] != ']' or \
+                    top == '{' and ch[1] != '}':
+                return ch[0]+1
+    else:
+        if stack:
+            return stack[0][0]+1
+    return 'Success'
+
+print(balanced(n))

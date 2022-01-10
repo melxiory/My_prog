@@ -1,26 +1,15 @@
 import sys
 
-n = str(sys.stdin.readline().strip())
-stack = []
-ind_val = []
+n = int(sys.stdin.readline())
+parent = [int(i) for i in sys.stdin.readline().strip().split()]
 
-def balanced(s):
-    for ch in enumerate(s):
-        if ch[1] not in ['(', '{', '[',']','}',')']:
-            continue
-        if ch[1] in ['(', '{', '[']:
-            stack.append(ch)
-        else:
-            if not stack:
-                return ch[0]+1
-            top = stack.pop()[1]
-            if top == '(' and ch[1] != ')' or \
-                    top == '[' and ch[1] != ']' or \
-                    top == '{' and ch[1] != '}':
-                return ch[0]+1
-    else:
-        if stack:
-            return stack[0][0]+1
-    return 'Success'
-
-print(balanced(n))
+list_a = [[] for _ in range(n + 1)]
+for i in range(n):
+  list_a[parent[i]] += [i]
+r, l = list_a[-1], 0
+while r:
+  q, r = r, []
+  for b in q:
+    r += list_a[b]
+  l += 1
+print(l)

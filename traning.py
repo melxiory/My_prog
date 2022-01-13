@@ -1,21 +1,26 @@
 import sys
 
 n = int(sys.stdin.readline())
-packet = [tuple(int(i) if i.isdigit() else i for i in sys.stdin.readline().strip().split()) for _ in range(n)]
-stack = []
-stack_max = []
-max_num = 0
-for comm in packet:
-    if comm[0] == 'push':
-        stack.append(comm[1])
-        if max_num < comm[1]:
-            max_num = comm[1]
-            stack_max.append(max_num)
-        else:
-            stack_max.append(max_num)
-    if comm[0] == 'max':
-        print(max_num)
-    if comm[0] == 'pop' and stack:
-        del stack[-1]
-        del stack_max[-1]
-        max_num = stack_max[-1] if stack_max else 0
+list_heap = list(map(int, sys.stdin.readline().strip().split()))
+list_swap = []
+
+def sift_down(i):
+    m_ind, l, r = i, 2 * i + 1, 2 * i + 2
+    if l < n and list_heap[m_ind] > list_heap[l]:
+        m_ind = l
+    if r < n and list_heap[m_ind] > list_heap[r]:
+        m_ind = r
+    if i != m_ind:
+        min_val = list_heap[i]
+        list_heap[i] = list_heap[m_ind]
+        list_heap[m_ind] = min_val
+        list_swap.append([i, m_ind])
+        sift_down(m_ind)
+
+
+for l in range(n//2, -1, -1):
+    sift_down(l)
+
+print(len(list_swap))
+for j in list_swap:
+    print(*list(j))

@@ -1,26 +1,20 @@
-import sys
+import sys, queue
 
-n = int(sys.stdin.readline())
+n, m = list(map(int, sys.stdin.readline().strip().split()))
 list_heap = list(map(int, sys.stdin.readline().strip().split()))
-list_swap = []
-
-def sift_down(i):
-    m_ind, l, r = i, 2 * i + 1, 2 * i + 2
-    if l < n and list_heap[m_ind] > list_heap[l]:
-        m_ind = l
-    if r < n and list_heap[m_ind] > list_heap[r]:
-        m_ind = r
-    if i != m_ind:
-        min_val = list_heap[i]
-        list_heap[i] = list_heap[m_ind]
-        list_heap[m_ind] = min_val
-        list_swap.append([i, m_ind])
-        sift_down(m_ind)
-
-
-for l in range(n//2, -1, -1):
-    sift_down(l)
-
-print(len(list_swap))
-for j in list_swap:
-    print(*list(j))
+q = queue.PriorityQueue(maxsize=n)
+acc = 0
+for i in list_heap:
+    if q.full():
+        rez = q.get()
+        acc = rez[1]
+        print(rez[1], rez[0])
+        q.put((rez[0] + i, acc))
+        acc += 1
+    else:
+        if i == 0:
+            print(acc, 0)
+            continue
+        print(acc, 0)
+        q.put((i, acc))
+        acc += 1

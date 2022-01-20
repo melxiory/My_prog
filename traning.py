@@ -11,7 +11,6 @@ acc = [float('-inf')]
 class Catapult(Exception):
     pass
 
-
 def in_order(i=0):
     if list_val1[i][1] == -1:
         if acc[0] > list_val1[i][0]:
@@ -23,13 +22,14 @@ def in_order(i=0):
             in_order(list_val1[i][2])
         return
     in_order(list_val1[i][1])
-    if acc[0] > list_val1[i][0]:
+    if acc[0] >= list_val1[i][0]:
         T_F[0] = False
         raise Catapult
     else:
         acc[0] = list_val1[i][0]
     if list_val1[i][2] != -1:
         in_order(list_val1[i][2])
+
 
 
 if n == 0:

@@ -1,10 +1,19 @@
-import requests as req, re
-a = input()
-res = req.get(a)
-lst_dom = []
-for i in re.findall(r'<\w .*href=(.http://|.https://|.ftp://|\'|\")(.+?[\.](\w\w|\w\w\w))[^\.\w\d]', res.text):
-    if i[1] not in lst_dom:
-        lst_dom.append(i[1])
-else:
-    lst_dom.sort()
-    print(*lst_dom, sep='\n')
+import csv
+
+with open('Crimes.csv') as crim:
+    reader = csv.reader(crim)
+    read_it = iter(reader)
+    ind = next(read_it).index('Primary Type')
+    dict_cr = {}
+    for i in read_it:
+        if i[ind] not in dict_cr:
+            dict_cr[i[ind]] = 1
+        else:
+            dict_cr[i[ind]] += 1
+    max = ''
+    for i in dict_cr:
+        if not max:
+            max = i
+        if dict_cr[max] < dict_cr[i]:
+            max = i
+    print(max)

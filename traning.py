@@ -1,19 +1,25 @@
-import csv
+import json
+js = json.loads(input())
+dict_par = {}
+dict_numb = {}
+def search_par(name):
+    for j in js:
+        if name == j['name']:
+            lst = []
+            for par in j['parents']:
+                lst += [par]
+                lst += search_par(par)
+            return lst
 
-with open('Crimes.csv') as crim:
-    reader = csv.reader(crim)
-    read_it = iter(reader)
-    ind = next(read_it).index('Primary Type')
-    dict_cr = {}
-    for i in read_it:
-        if i[ind] not in dict_cr:
-            dict_cr[i[ind]] = 1
-        else:
-            dict_cr[i[ind]] += 1
-    max = ''
-    for i in dict_cr:
-        if not max:
-            max = i
-        if dict_cr[max] < dict_cr[i]:
-            max = i
-    print(max)
+for i in js:
+    name = i['name']
+    dict_par[name] = list(set(search_par(name)))
+for k in dict_par:
+    dict_numb[k] = 1
+    for n in dict_par.values():
+        if k in n:
+            dict_numb[k] += 1
+for i in sorted(list(dict_numb.items())):
+    print(i[0], ':', i[1])
+
+

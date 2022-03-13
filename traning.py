@@ -1,25 +1,21 @@
+import sys
+import requests
 import json
-js = json.loads(input())
-dict_par = {}
-dict_numb = {}
-def search_par(name):
-    for j in js:
-        if name == j['name']:
-            lst = []
-            for par in j['parents']:
-                lst += [par]
-                lst += search_par(par)
-            return lst
 
-for i in js:
-    name = i['name']
-    dict_par[name] = list(set(search_par(name)))
-for k in dict_par:
-    dict_numb[k] = 1
-    for n in dict_par.values():
-        if k in n:
-            dict_numb[k] += 1
-for i in sorted(list(dict_numb.items())):
-    print(i[0], ':', i[1])
-
-
+client_id = '74f7a56323c7af1bec85'
+client_secret = 'f6c3dd3d511bc34e7c38c4c722413c23'
+r = requests.post("https://api.artsy.net/api/tokens/xapp_token",
+                  data={
+                      "client_id": client_id,
+                      "client_secret": client_secret
+                  })
+j = json.loads(r.text)
+token = j["token"]
+head = {'X-Xapp-Token': token}
+dict_h = {}
+fil = open('dataset_24476_4.txt')
+for i in fil:
+    res = requests.get(f'https://api.artsy.net/api/artists/{i.strip()}', headers=head)
+    js = res.json()
+    dict_h[js['sortable_name']] = js['birthday']
+print(*[i[0] for i in sorted(dict_h.items(), key=lambda x: (x[1], x[0]))], sep='\n')

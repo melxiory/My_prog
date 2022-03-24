@@ -1,36 +1,17 @@
-num = input()
-print(f'x{"-" * (4 * len(num)) + "-" * (len(num) - 1)}x')
-for i in range(7):
-    st = '|'
-    if i in [0, 3, 6]:
-        for hyp in num:
-            if int(hyp) in [0, 2, 3, 5, 6, 7, 8, 9] and i == 0:
-                st += ' -- '
-            elif int(hyp) in [2, 3, 4, 5, 6, 8, 9] and i == 3:
-                st += ' -- '
-            elif int(hyp) in [0, 2, 3, 5, 6, 8, 9] and i == 6:
-                st += ' -- '
-            else:
-                st += '    '
-            st += ' '
+a, b = (int(i) for i in input().split())
+lst_f = [input().strip() for _ in range(a)]
+lst_end = [[j for j in i] for i in lst_f]
+for i in range(a):
+    for j in range(b):
+        dot_s = [lst_f[i - 1][j - 1], lst_f[i - 1][j], lst_f[i - 1][j + 1 if j + 1 < b else 0],
+                 lst_f[i][j - 1], lst_f[i][j + 1 if j + 1 < b else 0],
+                 lst_f[i + 1 if i + 1 < a else 0][j - 1], lst_f[i + 1 if i + 1 < a else 0][j],
+                 lst_f[i + 1 if i + 1 < a else 0][j + 1 if j + 1 < b else 0]]
+        if lst_f[i][j] == '.':
+            if dot_s.count('X') == 3:
+                lst_end[i][j] = 'X'
         else:
-            st = st[:-1]
-    else:
-        for bar in num:
-            if int(bar) in [0, 4, 8, 9] and i in [1, 2]:
-                st += '|  |'
-            elif int(bar) in [0, 6, 8] and i in [4, 5]:
-                st += '|  |'
-            elif int(bar) in [1, 2, 3, 7] and i in [1, 2]:
-                st += '   |'
-            elif int(bar) in [1, 3, 4, 5, 7, 9] and i in [4, 5]:
-                st += '   |'
-            elif int(bar) in [5, 6] and i in [1, 2]:
-                st += '|   '
-            elif int(bar) == 2 and i in [4, 5]:
-                st += '|   '
-            st += ' '
-        else:
-            st = st[:-1]
-    print(st+'|')
-print(f'x{"-" * (4 * len(num)) + "-" * (len(num) - 1)}x')
+            if dot_s.count('X') not in [2, 3]:
+                lst_end[i][j] = '.'
+for rez in lst_end:
+    print(*rez, sep='')

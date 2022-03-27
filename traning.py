@@ -1,16 +1,29 @@
-a, b = (int(i) for i in input().split())
-lst_f = [input().strip() for _ in range(a)]
-lst_end = [[j for j in i] for i in lst_f]
-for i in range(a):
-    for j in range(b):
-        dot_s = [lst_f[i - 1][j - 1] if i - 1 >= 0 and j - 1 >= 0 else None, lst_f[i - 1][j]if i - 1 >= 0 else None,
-                 lst_f[i - 1][j + 1] if i - 1 >= 0 and j + 1 < b else None, lst_f[i][j - 1] if j - 1 >= 0 else None,
-                 lst_f[i][j + 1] if j + 1 < b else None, lst_f[i + 1][j - 1] if i + 1 < a and j - 1 >= 0 else None,
-                 lst_f[i + 1][j] if i + 1 < a else None, lst_f[i + 1][j + 1] if i + 1 < a and j + 1 < b else None]
-        if lst_f[i][j] == '.':
-            if dot_s.count('*') > 0:
-                lst_end[i][j] = f'{dot_s.count("*")}'
-            else:
-                lst_end[i][j] = '0'
-for rez in lst_end:
-    print(*rez, sep='')
+from collections import Counter
+comb = input().split()
+mean = {
+         '2':2,'3':3,'4':4,'5':5,'6':6,'7':7,'8':8,'9':9,
+         '10':10,'J':11,'Q':12,'K':13,'A':14
+         }
+lear = Counter([i[-1] for i in comb])
+val = Counter([mean[i[0:-1]] for i in comb])
+if len(lear) == 1:
+    if set(val.keys()) == {10, 11, 12, 13, 14}:
+        print('Royal Flush')
+    elif set(val.keys()) == set(range(min(val.keys()), min(val.keys()) + 5)):
+        print('Straight Flush')
+    else:
+        print('Flush')
+elif 4 in val.values():
+    print('Four of a Kind')
+elif {2, 3} == set(val.values()):
+    print('Full House')
+elif set(val.keys()) == set(range(min(val.keys()), min(val.keys()) + 5)):
+    print('Straight')
+elif 3 in val.values():
+    print('Three of a Kind')
+elif list(val.values()).count(2) == 2:
+    print('Two Pairs')
+elif 2 in val.values():
+    print('Pair')
+else:
+    print('High Card')

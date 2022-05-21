@@ -1,54 +1,58 @@
-a, b, n = int(input()), int(input()), int(input())
-lst_p, lst_rez, a1, b1 = [], [], 0, 0
-if a == n:
-    print('>A')
-elif b == n:
-    print('>B')
-else:
-    while a1 != n and b1 != n:
-        if a < b:
-            if b1 in lst_p:
-                print('Impossible')
-                break
-            if a1 == 0:
-                a1 += a
-                lst_rez.append('>A')
-            if b1 == b:
-                lst_p.append(b1)
-                b1, a1 = a1, 0
-                lst_rez.append('B>')
-                lst_rez.append('A>B')
-            else:
-                if b1 + a1 <= b:
-                    lst_p.append(b1)
-                    b1 += a1
-                    a1 = 0
-                else:
-                    lst_p.append(b1)
-                    a1 = a - (b - b1)
-                    b1 += b - b1
-                lst_rez.append('A>B')
-        else:
-            if a1 in lst_p:
-                print('Impossible')
-                break
-            if b1 == 0:
-                b1 += b
-                lst_rez.append('>B')
-            if a1 == a:
-                lst_p.append(a1)
-                a1, b1 = b1, 0
-                lst_rez.append('A>')
-                lst_rez.append('B>A')
-            else:
-                if b1 + a1 <= a:
-                    lst_p.append(a1)
-                    a1 += b1
-                    b1 = 0
-                else:
-                    lst_p.append(a1)
-                    b1 = b - (a - a1)
-                    a1 += a - a1
-                lst_rez.append('B>A')
-    else:
-        print(*lst_rez, sep='\n')
+import sys
+
+
+def spiral_gen(start_cell, max_cell, walk_order):
+    def move(pos, dif):
+        return (pos[0] + dif[0], pos[1] + dif[1])
+
+    pos = (start_cell, start_cell)
+
+    cells_total = max_cell ** 2
+    cells_curr = 0
+    direction = 0
+
+    cols_visited = [start_cell, ]
+    rows_visited = [start_cell, ]
+
+    while cells_curr < cells_total:
+        cells_curr += 1
+        yield pos
+        pos = move(pos, walk_order[direction])
+        if (pos[0] not in rows_visited) or (pos[1] not in cols_visited):
+            if pos[0] not in rows_visited:
+                rows_visited.append(pos[0])
+            elif pos[1] not in cols_visited:
+                cols_visited.append(pos[1])
+
+            direction += 1
+            if direction == len(walk_order):
+                direction = 0
+
+
+def print_matrix(matrix: object, item_format: object = '{:03}') -> object:
+    print('\n'.join([' '.join(map(lambda a: item_format.format(a), row)) for row in matrix]))
+
+
+def main(args):
+    n = int(input())
+    n_max = 2 * n + 1
+
+    A = [[0 for col in range(n_max)] for row in range(n_max)]
+    val = 0
+
+    ccw = (
+        (-1, 0),
+        (0, -1),
+        (1, 0),
+        (0, 1)
+    )
+
+    for row, col in spiral_gen(n, n_max, ccw):
+        A[row][col] = val
+        val += 1
+    print_matrix(A, '{:03}')
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main(sys.argv))

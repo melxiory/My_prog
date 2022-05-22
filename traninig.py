@@ -1,9 +1,18 @@
-n, m = map(int, input().split())
-x = [tuple(map(int, input().split())) for _ in range(int(input()))]
-f = [[(0, '*')[(r + 1, c + 1) in x] for c in range(m)] for r in range(n)]
-for r in range(n):
-    for c in range(m):
-        if f[r][c] != '*':
-            f[r][c] = sum(f[i][j] == '*' for i in range(max(0, r - 1), min(r + 2, n)) 
-                                         for j in range(max(0, c - 1), min(c + 2, m)))            
-[print(*_) for _ in f]
+n = int(input())
+t = [[9] * n for i in range(n)]
+i, j, k, l = 0, 0, 1, 0
+for _ in range(n * n):
+    t[i][j] = k
+    if i <= j + 1 and i + j < n - 1:
+        j += 1
+    elif i < j and i + j >= n - 1:
+        i += 1
+    elif i >= j and i + j > n - 1:
+        j -= 1
+    elif i > j + 1 and i + j <= n - 1:
+        i -= 1
+    if i-1 >= 0 and j == l and k == t[i-1][j]:
+        k = 0 if k else 1
+        l += 1
+for q in t:
+    print(*q)

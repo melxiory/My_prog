@@ -1,6 +1,13 @@
-n = int(input())
-ld = {i ** 2 + u ** 2: [i, u] for i in range(int(n ** 0.5) + 1) for u in range(i, int(n ** 0.5) + 1)}
-for i in ld:
-    if n - i in ld:
-        print(*list(filter(lambda x: x, ld[i] + ld[n - i]))[::-1], sep=' ')
-        break
+x1, y1, x2, y2 = map(int, input().split())
+
+
+def nod(a, b):
+    if b > 0:
+        return nod(b, a % b)
+    else:
+        return a
+
+
+a, b = abs(x1 - x2), abs(y1 - y2)
+d = nod(a, b)
+print(d * (a // d + b // d - 1))

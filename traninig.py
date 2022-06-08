@@ -1,13 +1,5 @@
-x1, y1, x2, y2 = map(int, input().split())
+from math import gcd
 
-
-def nod(a, b):
-    if b > 0:
-        return nod(b, a % b)
-    else:
-        return a
-
-
-a, b = abs(x1 - x2), abs(y1 - y2)
-d = nod(a, b)
-print(d * (a // d + b // d - 1))
+a = [list(map(int, input().split())) for _ in range(int(input()))]
+a.append(a[0])
+print(sum(gcd(abs(a[i][0] - a[i + 1][0]), abs(a[i][1] - a[i + 1][1])) for i in range(len(a) - 1)))

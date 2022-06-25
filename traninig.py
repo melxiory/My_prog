@@ -1,5 +1,16 @@
-def bindigits(n, bits):
-    s = bin(n & int("1"*bits, 2))[2:]
-    return ("{0:0>%s}" % (bits)).format(s)
+def is_prime(num):
+    prime = num > 1 and (num % 2 != 0 or num == 2) and (num % 3 != 0 or num == 3)
+    i = 5;
+    d = 2;
 
-print(bindigits(int(input()), int(input())))
+    while prime and i * i <= num:
+        prime = num % i != 0
+        i += d
+        d = 6 - d
+    return prime
+
+n = int(input())
+if is_prime(n):
+    print("YES")
+else:
+    print("NO")

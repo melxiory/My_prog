@@ -1,16 +1,23 @@
-def is_prime(num):
-    prime = num > 1 and (num % 2 != 0 or num == 2) and (num % 3 != 0 or num == 3)
-    i = 5;
-    d = 2;
+def caesar(text, key, alphabet):
+    return alphabet[(alphabet.index(text) + key) % len(alphabet)]
 
-    while prime and i * i <= num:
-        prime = num % i != 0
-        i += d
-        d = 6 - d
-    return prime
 
-n = int(input())
-if is_prime(n):
-    print("YES")
-else:
-    print("NO")
+def jarriquez_encryption(text, key, alphabet='ABCDEFGHIJKLMNOPQRSTUVWXYZ', reverse=False):
+    st, key = '', str(key)
+    for n, i in enumerate(text):
+        if not reverse:
+            st += caesar(i, int(key[n % len(key)]), alphabet)
+        else:
+            st += caesar(i, -int(key[n % len(key)]), alphabet)
+    return st
+
+
+for i in range(1000, 999999):
+    rez = jarriquez_encryption(
+        'ТЛБЛДУЭППТКЛФЧУВНУПБКЗИХТЛТТЫХНЛОИНУВЖММИНПФНПШОКЧЛЕРНТФНАХЖИДМЯКЛТУБЖИУЕЖЕАХЛГЩЕЕЪУВНГАХИЯШПЙАОЦЦПВТЛБФТТИИНДИДНЧЮ'
+        'ОНЯОФВТЕАТФУШБЛРЮЮЧЖДРУУШГЕХУРПЧЕУВАЭУОЙБДБНОЛСКЦБСАОЦЦПВИШЮТППЦЧНЖОИНШВРЗЕЗКЗСБЮНЙРКПСЪЖФФШНЦЗРСЭШЦПЖСЙНГЭФФВЫМЖИЛР'
+        'ОЩСЗЮЙФШФДЖОИЗТРМООЙБНФГОЩЧФЖООКОФВЙСЭФЖУЬХИСЦЖГИЪЖДШПРМЖПУПГЦНВКБНРЕКИБШМЦХЙИАМФЛУЬЙИСЗРТЕС',
+        i, alphabet='АБВГДЕЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ',
+        reverse=True)
+    if 'АЛМАЗ' in rez and 'ДАКОСТА' in rez:
+        print(i)
